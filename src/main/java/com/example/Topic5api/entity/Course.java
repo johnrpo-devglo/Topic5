@@ -2,6 +2,7 @@ package com.example.Topic5api.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -14,6 +15,9 @@ public class Course implements Serializable {
     private  Long id;
     private String nameCourse;
     private String duration;
+
+    @ManyToMany(mappedBy = "courses")
+    private Set<Student> students;
 
     public Long getId() {
         return id;

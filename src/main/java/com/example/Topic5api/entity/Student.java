@@ -2,6 +2,7 @@ package com.example.Topic5api.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -17,6 +18,16 @@ public class Student implements Serializable {
     private String lastname;
     private String email;
     private Boolean enable;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable( name ="matricula",
+            joinColumns =@JoinColumn(name = "id_student"),
+            inverseJoinColumns =@JoinColumn(name = "id_course")
+    )
+
+    private Set<Course> courses;
+
+
 
     public Long getId() {
         return id;
