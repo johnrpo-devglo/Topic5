@@ -1,7 +1,10 @@
 package com.example.Topic5api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -16,8 +19,14 @@ public class Course implements Serializable {
     private String nameCourse;
     private String duration;
 
-    @ManyToMany(mappedBy = "courses")
-    private Set<Student> students;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "student_enrolled",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private Set<Student> enrolledStudent = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -41,5 +50,13 @@ public class Course implements Serializable {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public Set<Student> getEnrolledStudent() {
+        return enrolledStudent;
+    }
+
+    public void enrollStudent(Student student) {
+        enrolledStudent.add(student);
     }
 }
